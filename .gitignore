@@ -1,0 +1,27 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# Data Files (Keep git light; raw data stays local or in cloud storage)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Model Artifacts (Large binary files)
+models/*
+!models/.gitkeep
+
+# Environment variables & IDE configs
+.env
+.vscode/
+.idea/
