@@ -3,19 +3,20 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io/)
 
-An end-to-end machine learning system and interactive analytics platform designed to predict pre-owned vehicle valuations across international markets (**United States 🇺🇸** and **India 🇮🇳**). 
 
-Unlike traditional single-dataset implementations, **GlobalValuation AI** utilizes a **Dual-Pipeline Comparative Architecture**. It isolates regional string formats, currency dynamics, and market-specific features into domain-adapted preprocessing routines and distinct ensemble regression models (XGBoost / LightGBM) with user-facing Explainable AI (**SHAP**).
+An end-to-end machine learning platform and interactive web application designed to predict pre-owned vehicle market valuations across international regions (**United States 🇺🇸** and **India 🇮🇳**). 
+
+Unlike typical single-dataset implementations, **GlobalValuation AI** utilizes a **Dual-Pipeline Comparative Machine Learning Architecture**. It handles regional noise, currency variations, and domain-specific schemas by training isolated preprocessing routines and distinct ensemble regression models (XGBoost / LightGBM) paired with user-facing Explainable AI (**SHAP**).
 
 ---
 
-## 📌 Executive Summary & Architecture
+## 📌 Architectural Blueprint
 
-Scraped auto listings present severe schema variance across geographic regions:
-* **US Market (`$ / Miles`):** Focuses on engine displacement/horsepower (`355HP 5.3L V8`), vehicle title history (`clean_title`), and accident reports.
-* **Indian Market (`₹ Lakhs / KMs`):** Focuses on owner count (`1st Owner`), engine power (`BHP / CC`), city location, and fuel mechanism.
+Scraped auto listings display significant schema and volume variations across regional markets:
+* **US Craigslist Market (`$ USD / Miles`):** Large volume (~420k listings) with outlier noise ($0, $1, or extreme listing prices), categorical cylinder specs (`6 cylinders`), drive configurations (`4wd/fwd/rwd`), body types (`sedan/truck/SUV`), and title statuses (`clean`).
+* **Indian CarDekho Market (`₹ INR / Kilometers`):** ~15.4k listings tracking owner history (`First Owner`, `Second Owner`), seller classifications (`Individual`, `Dealer`), engine displacement (`CC`), and maximum power (`BHP`).
 
-Instead of concatenating mismatched features into a sparse, noisy matrix, GlobalValuation AI isolates the data pipelines:
+Instead of combining mismatched columns into a sparse matrix, GlobalValuation AI isolates the training pathways:
 
 ```text
                ┌─────────────────────────────────────────────────┐
@@ -27,10 +28,11 @@ Instead of concatenating mismatched features into a sparse, noisy matrix, Global
 ┌───────────────────────────┐                             ┌───────────────────────────┐
 │     US MARKET ROUTE       │                             │   INDIAN MARKET ROUTE     │
 ├───────────────────────────┤                             ├───────────────────────────┤
-│ Data: Taeef Najib CSV     │                             │ Data: Avika Kasliwal CSV  │
+│ Data: Austin Reese CSV    │                             │ Data: Manish Kumar CSV    │
+│ (~420k Craigslist rows)   │                             │ (~15.4k CarDekho rows)    │
 │ Script: src/clean_us.py   │                             │ Script: src/clean_in.py   │
-│ Engine: Regex (HP, L)     │                             │ Engine: Regex (CC, BHP)   │
-│ Target: Price ($ USD)     │                             │ Target: Price (Lakhs INR) │
+│ Engine: Outlier & Cyls    │                             │ Engine: CC, BHP, Owner    │
+│ Target: Price ($ USD)     │                             │ Target: Price (₹ INR)     │
 │ Model: us_pipeline.joblib │                             │ Model: in_pipeline.joblib │
 └──────────┬────────────────┘                             └──────────┬────────────────┘
            │                                                         │
